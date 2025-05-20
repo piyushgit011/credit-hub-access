@@ -9,7 +9,7 @@ type User = {
   email: string;
   credits: number;
   subscription?: {
-    tier: 'free' | 'basic' | 'premium';
+    tier: 'starter' | 'professional' | 'enterprise';
     active: boolean;
     expiresAt?: string;
   };
@@ -33,9 +33,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const mockUser: User = {
   id: '123',
   email: 'demo@example.com',
-  credits: 0,
+  credits: 10,
   subscription: {
-    tier: 'free',
+    tier: 'starter',
     active: false
   }
 };
@@ -123,17 +123,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (user) {
         const updatedUser = { ...user };
         
-        if (tier === 'basic') {
-          updatedUser.credits = 100;
+        if (tier === 'starter') {
+          updatedUser.credits = 50;
           updatedUser.subscription = {
-            tier: 'basic',
+            tier: 'starter',
             active: true,
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
           };
-        } else if (tier === 'premium') {
-          updatedUser.credits = 500;
+        } else if (tier === 'professional') {
+          updatedUser.credits = 150;
           updatedUser.subscription = {
-            tier: 'premium',
+            tier: 'professional',
+            active: true,
+            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+          };
+        } else if (tier === 'enterprise') {
+          updatedUser.credits = 300;
+          updatedUser.subscription = {
+            tier: 'enterprise',
             active: true,
             expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
           };

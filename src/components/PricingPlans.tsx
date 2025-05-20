@@ -12,7 +12,7 @@ interface PricingPlanProps {
   features: string[];
   credits: number;
   recommended?: boolean;
-  tier: 'free' | 'basic' | 'premium';
+  tier: 'starter' | 'professional' | 'enterprise';
 }
 
 const PricingPlan: React.FC<PricingPlanProps> = ({ 
@@ -58,7 +58,7 @@ const PricingPlan: React.FC<PricingPlanProps> = ({
         <CardTitle className="text-2xl">{name}</CardTitle>
         <div className="mt-4 mb-2">
           <span className="text-4xl font-bold">{price}</span>
-          {price !== 'Free' && <span className="text-gray-500 ml-2">/month</span>}
+          <span className="text-gray-500 ml-2">/month</span>
         </div>
         <CardDescription className="text-center max-w-[16rem] mx-auto text-gray-500">
           {description}
@@ -91,7 +91,7 @@ const PricingPlan: React.FC<PricingPlanProps> = ({
             ${isCurrentPlan ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
           variant={recommended ? 'default' : 'outline'}
         >
-          {isCurrentPlan ? 'Current Plan' : (tier === 'free' ? 'Get Started' : 'Subscribe')}
+          {isCurrentPlan ? 'Current Plan' : 'Subscribe'}
         </Button>
       </CardFooter>
     </Card>
@@ -104,39 +104,41 @@ const PricingPlans = () => {
   
   const pricingPlans: PricingPlanProps[] = [
     {
-      name: "Free",
-      price: "Free",
-      description: "Perfect for trying out our platform",
+      name: "Starter",
+      price: "$5",
+      description: "Perfect for individuals and small projects",
       features: [
-        "10 credits per month",
+        "50 credits per month",
         "Basic features",
         "Community support",
-        "Limited usage"
+        "Email support",
+        "24/7 customer service"
       ],
-      credits: 10,
-      tier: 'free'
+      credits: 50,
+      tier: 'starter'
     },
     {
-      name: "Basic",
-      price: "$9.99",
-      description: "Best for individuals and small projects",
+      name: "Professional",
+      price: "$15",
+      description: "Best for growing businesses and teams",
       features: [
-        "100 credits per month",
+        "150 credits per month",
         "All features included",
         "Priority support",
         "Monthly credit reports",
-        "24/7 customer service"
+        "24/7 customer service",
+        "Advanced analytics"
       ],
-      credits: 100,
+      credits: 150,
       recommended: true,
-      tier: 'basic'
+      tier: 'professional'
     },
     {
-      name: "Premium",
-      price: "$29.99",
+      name: "Enterprise",
+      price: "$25",
       description: "For businesses and power users",
       features: [
-        "500 credits per month",
+        "300 credits per month",
         "All features included",
         "Premium support",
         "Monthly credit reports",
@@ -144,8 +146,8 @@ const PricingPlans = () => {
         "Advanced analytics",
         "Dedicated account manager"
       ],
-      credits: 500,
-      tier: 'premium'
+      credits: 300,
+      tier: 'enterprise'
     }
   ];
   

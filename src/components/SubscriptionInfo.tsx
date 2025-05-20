@@ -12,12 +12,14 @@ const SubscriptionInfo = () => {
 
   const getMaxCredits = () => {
     switch (user.subscription?.tier) {
-      case 'basic':
-        return 100;
-      case 'premium':
-        return 500;
+      case 'starter':
+        return 50;
+      case 'professional':
+        return 150;
+      case 'enterprise':
+        return 300;
       default:
-        return 10; // free tier
+        return 10; // default credits
     }
   };
 
@@ -57,7 +59,7 @@ const SubscriptionInfo = () => {
           <div className="bg-gray-50 p-4 rounded-lg text-center">
             <p className="text-sm text-gray-500 mb-1">Current Plan</p>
             <p className="text-lg font-semibold capitalize gradient-text">
-              {user.subscription?.tier || 'Free'}
+              {user.subscription?.tier || 'No Subscription'}
             </p>
           </div>
           
@@ -90,29 +92,41 @@ const SubscriptionInfo = () => {
         </div>
         
         {/* Upgrade Section */}
-        {user.subscription?.tier !== 'premium' && (
+        {(!user.subscription?.active || user.subscription?.tier !== 'enterprise') && (
           <div className="bg-gray-50 p-4 rounded-lg">
             <h3 className="font-medium mb-2">Upgrade Your Plan</h3>
             <p className="text-sm text-gray-600 mb-4">
               Get more credits and features by upgrading your subscription.
             </p>
-            <div className="flex gap-3">
-              {user.subscription?.tier !== 'basic' && (
+            <div className="flex flex-wrap gap-3">
+              {(!user.subscription?.active || user.subscription?.tier !== 'starter') && (
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => checkoutSubscription('basic')}
+                  onClick={() => checkoutSubscription('starter')}
                 >
-                  Upgrade to Basic
+                  Starter Plan
                 </Button>
               )}
-              <Button
-                className="gradient-bg hover:opacity-90"
-                size="sm"
-                onClick={() => checkoutSubscription('premium')}
-              >
-                Upgrade to Premium
-              </Button>
+              {(!user.subscription?.active || user.subscription?.tier !== 'professional') && (
+                <Button
+                  variant={(!user.subscription?.active || user.subscription?.tier === 'starter') ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => checkoutSubscription('professional')}
+                  className={(!user.subscription?.active || user.subscription?.tier === 'starter') ? 'gradient-bg hover:opacity-90' : ''}
+                >
+                  Professional Plan
+                </Button>
+              )}
+              {(!user.subscription?.active || user.subscription?.tier !== 'enterprise') && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => checkoutSubscription('enterprise')}
+                >
+                  Enterprise Plan
+                </Button>
+              )}
             </div>
           </div>
         )}
